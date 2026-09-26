@@ -1,0 +1,64 @@
+{
+  "protocols": {
+    "rows": 164,
+    "first_law_max_error": 1.0408340855860843e-16,
+    "work_decomposition_max_error": 8.760353553682876e-17,
+    "min_entropy_production": 0.0272604088425269,
+    "max_norm_error": 3.8816829972532225e-08,
+    "max_thermal_tail": 3.098047219308876e-18,
+    "max_bound_minus_loss": -1.463622831773285e-14
+  },
+  "temperature_map": {
+    "rows": 1650,
+    "first_law_max_error": 1.0408340855860843e-16,
+    "work_decomposition_max_error": 2.220446049250313e-16,
+    "min_entropy_production": 9.81998914302033e-05,
+    "max_norm_error": 3.453814364506869e-07,
+    "max_thermal_tail": 4.777901187677101e-22,
+    "max_bound_minus_loss": -5.585660707116464e-13
+  },
+  "selected_points": {
+    "rows": 36,
+    "first_law_max_error": 1.0408340855860843e-16,
+    "work_decomposition_max_error": 8.760353553682876e-17,
+    "min_entropy_production": 0.0272606328435287,
+    "max_norm_error": 1.3379894747700405e-08,
+    "max_thermal_tail": 3.098047219308876e-18,
+    "max_bound_minus_loss": -8.085132735216768e-13
+  },
+  "geometries": {
+    "rows": 48,
+    "first_law_max_error": 1.0408340855860843e-16,
+    "work_decomposition_max_error": 1.704365815147213e-16,
+    "min_entropy_production": 0.0226397669277542,
+    "max_norm_error": 2.800560933158281e-07,
+    "max_thermal_tail": 3.913634480011506e-26,
+    "max_bound_minus_loss": -5.82062576869613e-12
+  },
+  "bias": {
+    "rows": 35,
+    "first_law_max_error": 1.0234868508263162e-16,
+    "work_decomposition_max_error": 2.5673907444456745e-16,
+    "min_entropy_production": 0.0272610081731107,
+    "max_norm_error": 1.3469447890379628e-08,
+    "max_thermal_tail": 3.098047219308876e-18,
+    "max_bound_minus_loss": -1.2226177010403014e-11
+  },
+  "convergence": {
+    "rows": 16,
+    "first_law_max_error": 1.0408340855860843e-16,
+    "work_decomposition_max_error": 2.1510571102112408e-16,
+    "min_entropy_production": 0.0272585946020843,
+    "max_norm_error": 6.392633866703079e-09,
+    "max_thermal_tail": 3.101702952322244e-18,
+    "max_bound_minus_loss": -4.846779839514758e-10
+  },
+  "finite_contacts": {
+    "rows": 62,
+    "min_sigma_hot": 0.0005511277147284,
+    "min_sigma_cold": 0.0008107715833613,
+    "min_density_eigenvalue": -5.7955920298286815e-18,
+    "max_cycle_residual": 1.998794677661819e-12
+  },
+  "status": "PASS"
+}
