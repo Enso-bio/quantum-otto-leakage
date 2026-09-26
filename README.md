@@ -31,11 +31,15 @@ python make_figures.py
 python make_bias_figure.py
 ```
 
-The full recomputation is substantially slower than the audit of the shipped numerical tables.
+The full recomputation is substantially slower than the standard audit. The consistency checker uses the shipped tables for most claims and reruns only one targeted $\tau=10$ propagation.
 
 ### Google Colab
 
-Open `COLAB_REPRODUCE.ipynb`, replace `GITHUB_REPO` with the public repository URL, and run all cells. By default the notebook performs a fast audit. Set `FULL_RECOMPUTE = True` to regenerate the numerical study from the Hamiltonian.
+Open `COLAB_REPRODUCE.ipynb` and run all cells. The notebook clones this public repository directly from:
+
+`https://github.com/Enso-bio/quantum-otto-leakage`
+
+By default it performs a fast audit. Set `FULL_RECOMPUTE = True` to regenerate the numerical study from the Hamiltonian.
 
 ## Repository structure
 
@@ -45,7 +49,7 @@ Open `COLAB_REPRODUCE.ipynb`, replace `GITHUB_REPO` with the public repository U
 - `bias_tls_compare.py` — full-spatial versus biased two-level comparison and loss decomposition.
 - `verify_independent.py` — independent full-grid Crank–Nicolson checks and algebraic random-unitary verification.
 - `validate_results.py` — aggregate thermodynamic and numerical validation.
-- `paper_consistency_check.py` — checks the numerical values quoted in the manuscript against the shipped tables.
+- `paper_consistency_check.py` — checks the numerical values quoted in the manuscript against the shipped tables and reruns one targeted $\tau=10$ propagation for the immediate-channel decomposition.
 - `make_figures.py`, `make_bias_figure.py` — regenerate the manuscript figures.
 - `data/` — raw CSV/JSON numerical outputs used for figures and quoted results.
 - `figures/` — generated PDF/PNG figures for comparison with regenerated outputs.
@@ -58,8 +62,12 @@ The reference calculations use deterministic numerical integration and diagonali
 
 ## Citation
 
-For a published paper, the preferred citation is an archived release with a persistent DOI (for example, a Zenodo DOI created from a tagged GitHub release). `CITATION.cff` provides repository metadata. After obtaining the DOI, add it to both `CITATION.cff` and the manuscript's Code Availability statement.
+If you use this code or the accompanying numerical data, please cite the associated manuscript and reference this repository:
+
+**Enso O. Torres Alegre.** *Energy-weighted leakage limits work extraction in a symmetry-preserving quantum Otto engine.* Code and numerical data: https://github.com/Enso-bio/quantum-otto-leakage
+
+`CITATION.cff` contains machine-readable citation metadata for GitHub's **Cite this repository** function.
 
 ## License
 
-Choose and add an explicit software license before making the repository public. MIT or BSD-3-Clause are common permissive choices for academic Python code, but the choice belongs to the author.
+This software is released under the MIT License. See `LICENSE`.

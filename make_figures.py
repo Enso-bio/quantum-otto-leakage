@@ -9,8 +9,8 @@ from matplotlib.colors import TwoSlopeNorm
 from engine import Engine
 
 ROOT=Path(__file__).resolve().parent;D=ROOT/'data';F=ROOT/'figures';F.mkdir(exist_ok=True)
-plt.rcParams.update({'font.family':'DejaVu Sans','font.size':9,'axes.labelsize':9,
-    'axes.titlesize':10,'legend.fontsize':8,'axes.spines.top':False,'axes.spines.right':False,
+plt.rcParams.update({'font.family':'DejaVu Sans','font.size':9.5,'axes.labelsize':9.5,
+    'axes.titlesize':10,'legend.fontsize':7.8,'axes.spines.top':False,'axes.spines.right':False,
     'pdf.fonttype':42,'savefig.dpi':200,'lines.linewidth':1.8})
 colors={'linear_J':'#2763A5','linear_b':'#777777','smooth_b':'#CE711F','spectral_smooth':'#008477'}
 labels={'linear_J':'Linear J','linear_b':'Linear b','smooth_b':'Quintic b','spectral_smooth':'Spectral + quintic'}
@@ -21,7 +21,7 @@ def panel(ax,t):ax.text(-.12,1.06,t,transform=ax.transAxes,fontweight='bold',fon
 def main():
     m=Engine(n=1000,k=32)
     c=pd.read_csv(D/'calibration.csv');p=pd.read_csv(D/'protocols.csv');q=pd.read_csv(D/'selected_points.csv');r=json.loads((D/'reference.json').read_text())
-    fig,axs=plt.subplots(1,3,figsize=(8.2,2.65),layout='constrained',gridspec_kw={'width_ratios':[1.05,1.15,.8]})
+    fig,axs=plt.subplots(1,3,figsize=(7.1,2.55),layout='constrained',gridspec_kw={'width_ratios':[1.05,1.15,.8]})
     y=np.linspace(-4,4,800)
     for b in [.5,2.5]:axs[0].plot(y,(y*y-2.4**2)**2/(8*2.4**2)+b*np.exp(-y*y/.5),label=f'b = {b}')
     axs[0].set(xlabel=r'$y=x/x_0$',ylabel=r'$V/(\hbar\omega_0)$',ylim=(0,3.5));axs[0].legend(frameon=False)
@@ -47,7 +47,7 @@ def main():
     for ax0,t in zip(axs,['a','b','c']):panel(ax0,t)
     finish(fig,'fig1_spectral_scales')
 
-    fig,axs=plt.subplots(1,2,figsize=(7.1,2.9),layout='constrained')
+    fig,axs=plt.subplots(1,2,figsize=(7.1,2.75),layout='constrained')
     for kind in colors:
         a=p[(p.protocol==kind)&(p.tau>0)]
         axs[0].semilogx(a.tau,a.W/a.W_ad,label=labels[kind],color=colors[kind])
@@ -67,15 +67,15 @@ def main():
     for ax,t in zip(axs,['a','b']):panel(ax,t)
     finish(fig,'fig2_work_and_bound')
 
-    t=pd.read_csv(D/'temperature_map.csv');fig,axs=plt.subplots(1,2,figsize=(7.1,3),layout='constrained')
+    t=pd.read_csv(D/'temperature_map.csv');fig,axs=plt.subplots(1,2,figsize=(7.1,2.8),layout='constrained')
     for ax,kind,letter in zip(axs,['linear_J','spectral_smooth'],['a','b']):
         z=t[t.protocol==kind];grid=z.pivot(index='ratio',columns='tau',values='W')
         budget=z.pivot(index='ratio',columns='tau',values='W_ad')
         bound=z.pivot(index='ratio',columns='tau',values='bound')
         im=ax.pcolormesh(grid.columns,grid.index,grid.values/budget.values,cmap='RdBu',vmin=-1,vmax=1,shading='auto',rasterized=True)
         ax.contour(grid.columns,grid.index,grid.values,levels=[0],colors='black',linewidths=1.2)
-        ax.contour(grid.columns,grid.index,bound.values-budget.values,levels=[0],colors='#F5B841',linestyles='--',linewidths=1.5)
-        ax.set(xscale='log',xlabel=r'Stroke duration $\tau$',ylabel=r'$T_h/T_c$',title=labels[kind]);panel(ax,letter)
+        ax.contour(grid.columns,grid.index,bound.values-budget.values,levels=[0],colors='#D97706',linestyles='--',linewidths=1.5)
+        ax.set(xscale='log',xlabel=r'Stroke duration $\tau$',ylabel=r'$\theta_h/\theta_c$',title=labels[kind]);panel(ax,letter)
     cb=fig.colorbar(im,ax=axs,shrink=.85,pad=.025);cb.set_label(r'$W_{\rm out}/W_{\rm ad}$ (clipped)')
     finish(fig,'fig3_temperature_map')
 
@@ -85,11 +85,16 @@ def main():
     sl=pd.read_csv(D/'slew_comparison.csv');z=sl[np.isclose(sl.vmax,.2)]
     for i,kind in enumerate(colors):
         a=z[z.protocol==kind].iloc[0]
-        axs[1].bar(i,a.W/a.W_ad,color=colors[kind],width=.65)
-        axs[1].text(i,max(a.W/a.W_ad,0)+.045,f'{a.tau:.1f}',ha='center',fontsize=8)
+        val=a.W/a.W_ad
+        axs[1].bar(i,val,color=colors[kind],width=.65)
+        if val >= 0:
+            ytxt=max(val-.07,.05)
+            axs[1].text(i,ytxt,f'{a.tau:.1f}',ha='center',va='top',fontsize=8,color='white',fontweight='bold')
+        else:
+            axs[1].text(i,.035,f'{a.tau:.1f}',ha='center',va='bottom',fontsize=8)
     axs[1].axhline(0,color='black',lw=.7);axs[1].axhline(1,color='black',lw=.7,ls='--')
-    axs[1].set(xticks=range(4),xticklabels=['Linear J','Linear b','Quintic','Spectral'],ylabel=r'$W_{\rm out}/W_{\rm ad}$',ylim=(-.4,1.22),title=r'Equal peak speed $|\dot b|_{\max}=0.2$')
-    axs[1].text(.03,.03,'Numbers above bars: stroke duration',transform=axs[1].transAxes,fontsize=7)
+    axs[1].set(xticks=range(4),xticklabels=['Linear J','Linear b','Quintic','Spectral'],ylabel=r'$W_{\rm out}/W_{\rm ad}$',ylim=(-.4,1.18),title=r'Equal peak speed $|\dot b|_{\max}=0.2$')
+    axs[1].text(.03,.03,'Numbers: stroke duration',transform=axs[1].transAxes,fontsize=7)
     for ax,t0 in zip(axs,['a','b']):panel(ax,t0)
     finish(fig,'fig4_control_resources')
 
@@ -114,7 +119,7 @@ def main():
     axs[0].axhline(0,color='black',lw=.8);axs[0].set(xlabel=r'Spatial bias parameter $\epsilon/J_o(0)$',ylabel=r'$W_{\rm out}/W_{\rm ad}(\epsilon)$',ylim=(-.1,1.02));axs[0].legend(frameon=False)
     for (alpha,width),a in g[g.protocol=='smooth_b'].groupby(['alpha','width']):
         a=a[a.tau>0];axs[1].semilogx(a.tau,a.W/a.W_ad,'o-',ms=3,label=f'{alpha}, {width}')
-    axs[1].axhline(0,color='black',lw=.8);axs[1].set(xlabel=r'Stroke duration $\tau$',ylabel=r'$W_{\rm out}/W_{\rm ad}$',ylim=(-1.1,1.05));axs[1].legend(title=r'$\alpha,\ \sigma/x_0$',frameon=False,fontsize=7)
+    axs[1].axhline(0,color='black',lw=.8);axs[1].set(xlabel=r'Stroke duration $\tau$',ylabel=r'$W_{\rm out}/W_{\rm ad}$',ylim=(-1.1,1.05));axs[1].legend(title=r'$\alpha,\ s$',frameon=False,fontsize=7)
     axs[1].set_xticks([5,10,20,40,80], labels=['5','10','20','40','80'])
     axs[1].xaxis.set_minor_formatter(plt.NullFormatter())
     for ax,t0 in zip(axs,['a','b']):panel(ax,t0)

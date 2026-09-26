@@ -1,10 +1,11 @@
 cff-version: 1.2.0
-message: "If you use this code, please cite the associated manuscript and the archived software release."
+message: "If you use this code, please cite the associated manuscript and this repository."
 title: "Reproducibility code for Energy-weighted leakage limits work extraction in a symmetry-preserving quantum Otto engine"
 type: software
 authors:
   - family-names: "Torres Alegre"
     given-names: "Enso O."
 version: 1.0.0
-repository-code: "https://github.com/YOUR_USERNAME/YOUR_REPOSITORY"
-date-released: "2026-09-23"
+repository-code: "https://github.com/Enso-bio/quantum-otto-leakage"
+date-released: "2026-09-24"
+license: MIT
